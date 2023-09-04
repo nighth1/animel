@@ -1,6 +1,10 @@
-ADD karas ozero
+ADD karas sea
 ADD vorobey 15.5
-ADD muravey 1.3 13.09.1877
+ADD muravey 1.3 13:09:1877
 ADD sinitca 13.6
-ADD okun reka
-ADD zuk 3.1 07.08.1677
+ADD okun river
+ADD zuk 3.1 07:08:1677
+ADD orbit river
+PRINT
+REM sinitca
+PRINT
