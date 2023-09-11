@@ -2,6 +2,7 @@ ADD karas sea
 ADD vorobey 15.5
 ADD muravey 1.3 13:09:1877
 ADD sinitca 13.6
+ADD sinitca 22.6
 ADD okun river
 ADD zuk 3.1 07:08:1677
 ADD orbit river

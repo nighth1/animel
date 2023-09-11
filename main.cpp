@@ -43,7 +43,7 @@ animalsData.printAnimals();
                 words.push_back(word);
             }
 
-animalsData.removeAnimals(words[1]);
+animalsData.removeAnimalsToName(words[1]);
         }
         }
 

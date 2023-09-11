@@ -10,8 +10,6 @@
 using namespace std;
 
 
-
-
 enum class Location
 {river, sea, lake, ocean};
 
@@ -35,129 +33,347 @@ Date parseDate(string dateString)
     return Date{dateVector[0], dateVector[1], dateVector[2]};
 }
 
-class Fish{
-    public:
+struct FishNode {
     string name;
 Location location;
-
-Fish(string nameFish, Location locationFish)
-{
-    name =nameFish;
-    location = locationFish;
-}
+    FishNode* next;
+    FishNode* prev;
 };
 
-class Bird{
-    public:
+struct BirdNode {
     string name;
 double maxSpeed;
- Bird(string nameBird, double maxSpeedtBird)
-{
-    name = nameBird;
-    maxSpeed = maxSpeedtBird;
-}
-
+    BirdNode* next;
+    BirdNode* prev;
 };
 
-
-class Insect
-{
-    public:
-string name;
+struct InsectNode {
+    string name;
 double size;
 Date date;
-
-   Insect(string nameInsect, double sizeInsect, Date dateInsect)
-{
-    name = nameInsect;
-    size = sizeInsect;
-    date = dateInsect;
-}
-
+    InsectNode* next;
+    InsectNode* prev;
 };
 
 class Animals
 {
      public:
-list<Fish> fishes;
-list<Bird> birds;
-list<Insect> insects;
+FishNode* fishStartPointer = nullptr; 
+BirdNode* birdStartPointer = nullptr;
+InsectNode* insectStartPointer = nullptr;
+
+void insertFish(FishNode** head, string name, Location location) {
+    // Создание нового узла
+    FishNode* newNode = new FishNode();
+    newNode->name = name;
+    newNode->location = location;
+
+    // Если список пустой, делаем новый узел начальным и указываем на самого себя
+    if (*head == nullptr) {
+        *head = newNode;
+        newNode->next = newNode;
+        newNode->prev = newNode;
+        return;
+    }
+     // Иначе, добавляем новый узел в начало списка
+    newNode->next = *head;
+    newNode->prev = (*head)->prev;
+    (*head)->prev->next = newNode;
+    (*head)->prev = newNode;
+    *head = newNode;
+}
+
+void insertBird(BirdNode** head, string name, double maxSpeed) {
+    // Создание нового узла
+    BirdNode* newNode = new BirdNode();
+    newNode->name = name;
+    newNode->maxSpeed = maxSpeed;
+
+    // Если список пустой, делаем новый узел начальным и указываем на самого себя
+    if (*head == nullptr) {
+        *head = newNode;
+        newNode->next = newNode;
+        newNode->prev = newNode;
+        return;
+    }
+     // Иначе, добавляем новый узел в начало списка
+    newNode->next = *head;
+    newNode->prev = (*head)->prev;
+    (*head)->prev->next = newNode;
+    (*head)->prev = newNode;
+    *head = newNode;
+}
+
+
+void insertInsect(InsectNode** head, string name, double maxSize, Date date) {
+    // Создание нового узла
+    InsectNode* newNode = new InsectNode();
+    newNode->name = name;
+    newNode->size = maxSize;
+    newNode->date = date;
+
+    // Если список пустой, делаем новый узел начальным и указываем на самого себя
+    if (*head == nullptr) {
+        *head = newNode;
+        newNode->next = newNode;
+        newNode->prev = newNode;
+        return;
+    }
+     // Иначе, добавляем новый узел в начало списка
+    newNode->next = *head;
+    newNode->prev = (*head)->prev;
+    (*head)->prev->next = newNode;
+    (*head)->prev = newNode;
+    *head = newNode;
+}
 
 void printAnimals()
 {
-    //cout << fishes.size();
-    for (auto i = fishes.begin(); i != fishes.end(); ++i) //Итерируем по указателю
-    {
-        cout << endl << "Name: " << i->name;
-        if(i->location == Location::river)
+    cout << endl << "PRINT" << endl;
+
+     if (fishStartPointer != nullptr) {
+        FishNode* currentFish = fishStartPointer;
+    do {
+        cout  << "name: " << currentFish->name;
+        if(currentFish->location == Location::river)
         {
-cout << endl << "Location: " << "river" << endl;// << i->name << endl;
+cout <<  " Location: " << "river" << endl;
         }
-        if(i->location == Location::sea)
+        if(currentFish->location == Location::sea)
         {
-cout << endl << "Location: " << "sea" << endl;// << i->name << endl;
+cout <<  " Location: " << "sea" << endl;
         }
-        if(i->location == Location::lake)
+        if(currentFish->location == Location::lake)
         {
-cout << endl << "Location: " << "lake" << endl;// << i->name << endl;
+cout <<  " Location: " << "lake" << endl;
         }
-        if(i->location == Location::ocean)
+        if(currentFish->location == Location::ocean)
         {
-cout  << "Location: " << "ocean" << endl;// << i->name << endl;
+cout << " Location: " << "ocean" << endl;
         }
+        
+        currentFish = currentFish->next;
+    } while (currentFish != fishStartPointer);
+    cout << endl;
+    }
+
+    
+
+
+     if (birdStartPointer != nullptr) {
+         BirdNode* currentBird = birdStartPointer;
+    do {
+        cout << endl << "name: "  << currentBird->name;
+        cout << " speed" << currentBird->maxSpeed; 
+        currentBird = currentBird->next;
+    } while (currentBird != birdStartPointer);
+    cout << endl;
+
+    }
+
+   if (insectStartPointer != nullptr) {
+ InsectNode* currentInsect = insectStartPointer;
+    do {
+        cout << endl << "name: "  << currentInsect->name;
+        cout << " size: "  << currentInsect->size; 
+        cout  << " date: "  << currentInsect->date.day << "." << currentInsect->date.mouth << "." << currentInsect->date.year; 
+        currentInsect = currentInsect->next;
+    } while (currentInsect != insectStartPointer);
+    cout << endl;
+    }
+
 }
 
 
-for (auto i = birds.begin(); i != birds.end(); ++i) {
-        cout << endl << "Name: " << i->name;
-        cout << endl << "Speed: " << i->maxSpeed;
+
+
+bool deleteBird(BirdNode** head, string name) {
+    // Если список пустой, ничего не делаем
+    if (*head == nullptr) {
+        return false;
+    }
+
+    BirdNode* current = *head;
+    BirdNode* nextNode = nullptr;
+    BirdNode* prevNode = nullptr;
+
+    // Если удаляемый элемент находится в начале списка
+    if (current->name == name) {
+        nextNode = current->next;
+        prevNode = current->prev;
+
+        // Если удаляемый элемент является единственным в списке
+        if (nextNode == current) {
+            *head = nullptr;
+        } else {
+            nextNode->prev = prevNode;
+            prevNode->next = nextNode;
+            *head = nextNode;
+        }
+
+        delete current;
+        return true;
+    }
+
+    // Поиск удаляемого элемента
+    while (current->next != *head) {
+        if (current->name == name) {
+            break;
+        }
+        current = current->next;
+    }
+
+    // Если удаляемый элемент найден
+    if (current->name == name) {
+        nextNode = current->next;
+        prevNode = current->prev;
+
+        nextNode->prev = prevNode;
+        prevNode->next = nextNode;
+
+        delete current;
          
     }
-
-    for (auto i = insects.begin(); i != insects.end(); ++i) {
-        cout << endl << "Name: " << i->name;
-        cout << endl << "Size: " << i->size;
-        cout << endl << "Discovery date: " << i->date.day << "." << i->date.mouth << "." << i->date.year;
-    }
+    return false;
 }
 
-void removeAnimals(string removeName)
-{
-    for (auto i = fishes.begin(); i != fishes.end();) {
-if(i->name==removeName)
-{
- i = fishes.erase(i);
-}
-else {
-        ++i; 
-    }     
+bool deleteFish(FishNode** head, string name) {
+    // Если список пустой, ничего не делаем
+    if (*head == nullptr) {
+        return false;
     }
 
-    for (auto i = birds.begin(); i != birds.end();) {
-       if(i->name==removeName)
-{
- i = birds.erase(i);
-} 
-else {
-        ++i; 
+    FishNode* current = *head;
+    FishNode* nextNode = nullptr;
+    FishNode* prevNode = nullptr;
+
+    // Если удаляемый элемент находится в начале списка
+    if (current->name == name) {
+        nextNode = current->next;
+        prevNode = current->prev;
+
+        // Если удаляемый элемент является единственным в списке
+        if (nextNode == current) {
+            *head = nullptr;
+        } else {
+            nextNode->prev = prevNode;
+            prevNode->next = nextNode;
+            *head = nextNode;
+        }
+
+        delete current;
+        return true;
     }
+
+    // Поиск удаляемого элемента
+    while (current->next != *head) {
+        if (current->name == name) {
+            break;
+        }
+        current = current->next;
     }
-    for (auto i = insects.begin(); i != insects.end();) {
- if(i->name==removeName)
-{
- i = insects.erase(i);
-} 
-else {
-        ++i; 
+
+    // Если удаляемый элемент найден
+    if (current->name == name) {
+        nextNode = current->next;
+        prevNode = current->prev;
+
+        nextNode->prev = prevNode;
+        prevNode->next = nextNode;
+
+        delete current;
     }
-    }
+    return false;
 }
+
+
+bool deleteInsect(InsectNode** head, string name) {
+    // Если список пустой, ничего не делаем
+    if (*head == nullptr) {
+        return false;
+    }
+
+    InsectNode* current = *head;
+    InsectNode* nextNode = nullptr;
+    InsectNode* prevNode = nullptr;
+
+    // Если удаляемый элемент находится в начале списка
+    if (current->name == name) {
+        nextNode = current->next;
+        prevNode = current->prev;
+
+        // Если удаляемый элемент является единственным в списке
+        if (nextNode == current) {
+            *head = nullptr;
+        } else {
+            nextNode->prev = prevNode;
+            prevNode->next = nextNode;
+            *head = nextNode;
+        }
+
+        delete current;
+        return true;
+    }
+
+    // Поиск удаляемого элемента
+    while (current->next != *head) {
+        if (current->name == name) {
+            break;
+        }
+        current = current->next;
+    }
+
+    // Если удаляемый элемент найден
+    if (current->name == name) {
+        nextNode = current->next;
+        prevNode = current->prev;
+
+        nextNode->prev = prevNode;
+        prevNode->next = nextNode;
+
+        delete current;
+    }
+    return false;
+}
+
+
+     
+
+
+
+
+void removeAnimalsToName(string removeName)
+{
+bool deleteOneBird = deleteBird(&birdStartPointer, removeName);
+bool deleteOneFish = deleteFish(&fishStartPointer, removeName);
+bool deleteOneInsect = deleteInsect(&insectStartPointer, removeName);
+
+
+while(deleteOneBird)
+{
+    deleteOneBird = deleteBird(&birdStartPointer, removeName);
+}
+
+while(deleteOneFish)
+{
+    deleteOneFish = deleteBird(&birdStartPointer, removeName);
+}
+
+while(deleteOneInsect)
+{
+    deleteOneInsect = deleteBird(&birdStartPointer, removeName);
+}
+
+}
+
+
 
 
 
 void addAnimal(string animalString)
 {
-    vector<string> words; // массив со словами
+
+vector<string> words; // массив со словами
             stringstream ss(animalString);
             string word;
             while (ss >> word)
@@ -170,32 +386,49 @@ void addAnimal(string animalString)
 
                 if (isdigit(words[2][0])) // Является ли символ цифрой (если да преобразовываем строку в тип double)
                 {
-                    birds.push_back(Bird(words[1], stod(words[2])));
+                   insertBird(&birdStartPointer, words[1], stod(words[2]));
                 }
                 else
                 {
                     if(words[2]=="lake")
 {
-fishes.push_back(Fish(words[1], Location::lake));
+
+    insertFish(&fishStartPointer, words[1], Location::lake);
 }
 if(words[2]=="sea")
 {
-fishes.push_back(Fish(words[1], Location::sea));
+insertFish(&fishStartPointer, words[1], Location::sea);
 }
 if(words[2]=="river")
 {
-fishes.push_back(Fish(words[1], Location::river));
+insertFish(&fishStartPointer, words[1], Location::river);
 }
 if(words[2]=="ocean")
 {
-fishes.push_back(Fish(words[1], Location::ocean));
+insertFish(&fishStartPointer, words[1], Location::ocean);
 }
                 }    
              }  
              if(words.size()==4) //Добавляем насекомое
              { 
-insects.push_back(Insect(words[1], stod(words[2]), parseDate(words[3])));
+                Date date =  parseDate(words[3]);
+
+                if(date.day>0&&date.day<31&&date.mouth>0&&date.mouth<13&&date.year>0)
+                {insertInsect(&insectStartPointer, words[1], stod(words[2]), parseDate(words[3]));}
              }
+
+
+
+
+
+
+
+
+
+
+
+
+    
 }
 };
 
