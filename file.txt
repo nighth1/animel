@@ -7,5 +7,7 @@ ADD okun river
 ADD zuk 3.1 07:08:1677
 ADD orbit river
 PRINT
+REM karas
 REM sinitca
+REM sinitc
 PRINT
