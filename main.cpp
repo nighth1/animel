@@ -6,7 +6,8 @@
 #include <cstring>
 #include <cctype>
 #include <list>
-#include "animals.cpp"
+#include "main.h"
+
 
 
 

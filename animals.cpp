@@ -111,14 +111,8 @@ void removeAnimalsToName(string removeName)
     AnimalNode* current = startPointer;
     AnimalNode* nextNode = nullptr;
     AnimalNode* prevNode = nullptr;
-
-    
-    
-
-
     // Поиск удаляемого элемента
     while (current->next != startPointer) {
-
         if (current->name == removeName) {
             //Если удаляемый элемент находится в начале списка
 if(current==startPointer)
@@ -127,19 +121,28 @@ if(current==startPointer)
         prevNode = current->prev;
      if (nextNode == current) {
             startPointer = nullptr;
+            return;
         } else {
              nextNode->prev = startPointer->prev;
              startPointer = nextNode;
-        }
-        delete current;
+             current = nextNode->next;
+             removeAnimalsToName(removeName);
+             return;
+        }     
 }
-else
+// Удаление последнего элемента списка, если его имя совпадает с искомым
+if(current->next==nullptr)
+{
+    prevNode = current->prev;
+    prevNode-> next = nullptr;
+}
+
+if(current->next!=nullptr&&current==startPointer)
 {
     nextNode = current->next;
             prevNode = current->prev;
             nextNode->prev = prevNode;
             prevNode->next = nextNode;
-            delete current; 
 }
         } 
         if(current->next == nullptr)
@@ -147,25 +150,13 @@ else
             break;
         }    
         current = current->next; 
-    }
-
-    // Удаление последнего элемента списка, если его имя совпадает с искомым
-    if (current->name == removeName) {
-        nextNode = current->next;
-        prevNode = current->prev;
-        nextNode->prev = prevNode;
-        prevNode->next = nextNode;
-        delete current;  
-    } 
+    }               
+       //  delete current;
 }
-
-
-
 
 
 void addAnimal(string animalString)
 {
-
 vector<string> words; // массив со словами
             stringstream ss(animalString);
             string word;
@@ -205,7 +196,6 @@ insertFish(words[1], Location::ocean);
              if(words.size()==4) //Добавляем насекомое
              { 
                 Date date =  parseDate(words[3]);
-
                 if(date.day>0&&date.day<31&&date.mouth>0&&date.mouth<13&&date.year>0)
                 {insertInsect(words[1], stod(words[2]), parseDate(words[3]));
                 }
